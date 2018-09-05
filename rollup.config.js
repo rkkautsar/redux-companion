@@ -1,18 +1,20 @@
-import resolve from "rollup-plugin-node-resolve";
-import commonjs from "rollup-plugin-commonjs";
-import babel from "rollup-plugin-babel";
-import typescript from "rollup-plugin-typescript2";
+import resolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
+import babel from 'rollup-plugin-babel';
+import typescript from 'rollup-plugin-typescript2';
+import { terser } from 'rollup-plugin-terser';
 
 const baseConfig = {
   plugins: [
     resolve({
       customResolveOptions: {
-        moduleDirectory: "node_modules"
+        moduleDirectory: 'node_modules'
       }
     }),
     babel(),
     commonjs(),
-    typescript()
+    typescript(),
+    terser()
   ]
 };
 
@@ -22,13 +24,13 @@ const createConfig = (path, output) => ({
   output: [
     {
       file: `dist/${output || path}.js`,
-      format: "cjs"
+      format: 'cjs'
     },
     {
       file: `dist/${output || path}.esm.js`,
-      format: "esm"
+      format: 'esm'
     }
   ]
 });
 
-export default [createConfig("", "index")];
+export default [createConfig('', 'index')];

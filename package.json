@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "A tool to help reducing redux code boilerplate for general async usage",
   "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -44,6 +45,7 @@
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.1.6",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-terser": "^2.0.2",
     "rollup-plugin-typescript2": "^0.17.0",
     "typescript": "^3.0.3"
   }
