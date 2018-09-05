@@ -9,7 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prebuild": "rimraf dist/",
     "build": "rollup -c",
-    "example": "parcel example/index.html"
+    "example": "parcel example/index.html",
+    "release": "release-it"
   },
   "repository": {
     "type": "git",
