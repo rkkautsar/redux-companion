@@ -7,4 +7,12 @@
 Opinionated way to reduce boilerplate on async (or sync) logic, like fetching data etc.
 Zero dependency (Although it only makes sense to use together with `Redux` AND `Redux Thunk`).
 
+### Installation
+
+```sh
+npm i redux-async-helper
+```
+
+### Usage
+
 See [example](example) for usage.
