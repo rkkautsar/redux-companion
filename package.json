@@ -1,0 +1,50 @@
+{
+  "name": "redux-async-helper",
+  "version": "0.1.0",
+  "description": "A tool to help reducing redux code boilerplate for general async usage",
+  "main": "dist/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rimraf dist/",
+    "build": "rollup -c",
+    "example": "parcel example/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rkkautsar/redux-async-helper.git"
+  },
+  "keywords": [
+    "redux",
+    "async",
+    "react",
+    "utils",
+    "es6"
+  ],
+  "author": "Rakha Kanz Kautsar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rkkautsar/redux-async-helper/issues"
+  },
+  "homepage": "https://github.com/rkkautsar/redux-async-helper#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "ky": "^0.2.0",
+    "parcel-bundler": "^1.9.7",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "release-it": "^7.6.1",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.65.1",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-typescript2": "^0.17.0",
+    "typescript": "^3.0.3"
+  }
+}
