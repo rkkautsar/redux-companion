@@ -10,12 +10,24 @@ import {
   createAsyncHandlers,
   createAsyncActions,
   asyncInitialState,
-  createAsyncThunk
+  createAsyncThunk,
+  createAction
 } from '../lib';
 
 const actions = createAsyncActions('fetch_hello');
+const incrementCounter = createAction('increment');
 
-const reducer = createReducer(createAsyncHandlers(actions), asyncInitialState);
+const handlers = {
+  ...createAsyncHandlers(actions),
+  [incrementCounter]: state => ({ ...state, counter: state.counter + 1 })
+};
+
+const initialState = {
+  ...asyncInitialState,
+  counter: 0
+};
+
+const reducer = createReducer(handlers, initialState);
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
@@ -49,6 +61,7 @@ const App = connect(
     </pre>
     <button onClick={() => dispatch(fetchThunk())}>Fetch</button>
     <button onClick={() => dispatch(fetchFailedThunk())}>Fetch Failed</button>
+    <button onClick={() => dispatch(incrementCounter())}>Increment +</button>
   </div>
 ));
 

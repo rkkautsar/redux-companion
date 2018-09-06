@@ -53,21 +53,17 @@ export const createAsyncHandlers = (
 
 export const createAsyncThunk = (
   actions: ReduxAsyncHelper.AsyncActions,
-  fetchPromise: (...args) => Promise<object>,
+  func: (...args) => Promise<object>,
   { onSuccess = noop, onFail = noop, rethrow = true } = {}
 ) => (...params) => async (dispatch, getState) => {
   dispatch(actions.request());
   try {
-    const data = await fetchPromise(...params);
+    const data = await func(...params);
     dispatch(actions.success(data));
     await onSuccess(dispatch, getState);
     return data;
   } catch (e) {
-    if (e.response && e.response.data) {
-      dispatch(actions.fail(e.response.data));
-    } else {
-      dispatch(actions.fail(e.message));
-    }
+    dispatch(actions.fail(e.message));
     onFail(dispatch, getState);
 
     if (rethrow) throw e;
