@@ -3,6 +3,7 @@
 ![GitHub](https://img.shields.io/github/license/rkkautsar/redux-async-helper.svg?style=flat-square)
 ![GitHub package version](https://img.shields.io/github/package-json/v/rkkautsar/redux-async-helper.svg?style=flat-square)
 ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/redux-async-helper.svg?style=flat-square)
+[![npm](https://img.shields.io/npm/dt/redux-async-helper.svg?style=flat-square)](https://www.npmjs.com/package/redux-async-helper)
 
 Opinionated way to reduce boilerplate on async (or sync) logic, like fetching data etc.
 Zero dependency (Although it only makes sense to use together with `Redux` AND `Redux Thunk`).
@@ -19,12 +20,12 @@ See [example usage](example).
 
 Basically, we have these utilities:
 
-1. [createAction](#createAction)
-2. [createReducer](#createReducer)
-3. [createAsyncActions](#createAsyncActions)
-4. [asyncInitialState](#asyncInitialState)
-5. [createAsyncHandlers](#createAsyncHandlers)
-6. [createAsyncThunk](#createAsyncThunk)
+1. [createAction](#createaction)
+2. [createReducer](#createreducer)
+3. [createAsyncActions](#createasyncactions)
+4. [asyncInitialState](#asyncinitialstate)
+5. [createAsyncHandlers](#createasynchandlers)
+6. [createAsyncThunk](#createasyncthunk)
 
 ### createAction
 
@@ -66,7 +67,7 @@ An opinionated state for holding async state and data. Used with other async hel
 ### createAsyncHandlers
 
 Used to make a set of handlers for the async actions generated with
-[createAsyncActions](#createAsyncActions). This function also allows you to hook on each
+[createAsyncActions](#createasyncactions). This function also allows you to hook on each
 async state with another handlers (`onRequest`, `onSuccess`, `onFail`). Received to arguments,
 the async actions and hook handlers.
 
@@ -87,7 +88,8 @@ Used to create a thunk (see [redux-thunk](https://github.com/reduxjs/redux-thunk
 (request) the async function. Received three arguments: async actions, the async function, and
 options, which includes hooks for success (`onSuccess`) and fail (`onFail`), each receiving
 the `dispatch` and `getState` as any other thunks. The async function is expected to resolve
-the data (which will be placed in `data` key in the state tree produced by initialAsyncState),
+the data (which will be placed in `data` key in the state tree produced by
+[initialAsyncState](#initialasyncstate)),
 any errors caught will be placed in the `error` key.
 
 ```js
