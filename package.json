@@ -10,6 +10,7 @@
     "prebuild": "rimraf dist/",
     "build": "rollup -c",
     "example": "parcel example/index.html",
+    "prerelease": "npm run build",
     "release": "release-it"
   },
   "repository": {
