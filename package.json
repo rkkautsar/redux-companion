@@ -1,6 +1,6 @@
 {
   "name": "redux-async-helper",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A tool to help reducing redux code boilerplate for general async usage",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
