@@ -1,4 +1,4 @@
-# Redux Async Helper
+# Redux Companion
 
 ![GitHub](https://img.shields.io/github/license/rkkautsar/redux-async-helper.svg?style=flat-square)
 ![GitHub package version](https://img.shields.io/github/package-json/v/rkkautsar/redux-async-helper.svg?style=flat-square)
@@ -13,6 +13,11 @@ Zero dependency (Although it only makes sense to use together with `Redux` AND `
 ```sh
 npm i redux-async-helper
 ```
+
+## Why?
+
+I find myself exhausted of writing (or copying) a lot of the same set of redux state, reducer,
+actions, and thunks for interacting with the api, so I thought why not make it easier?
 
 ## Usage
 
@@ -89,11 +94,11 @@ Used to create a thunk (see [redux-thunk](https://github.com/reduxjs/redux-thunk
 options, which includes hooks for success (`onSuccess`) and fail (`onFail`), each receiving
 the `dispatch` and `getState` as any other thunks. The async function is expected to resolve
 the data (which will be placed in `data` key in the state tree produced by
-[initialAsyncState](#initialasyncstate)),
+[asyncInitialState](#asyncinitialstate)),
 any errors caught will be placed in the `error` key.
 
 ```js
-const apiFetch = async () => {
+const createFetchFunction = async () => {
   try {
     const response = await axios.get('/users');
     return response.data;
