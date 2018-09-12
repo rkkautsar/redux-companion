@@ -1,6 +1,6 @@
 {
   "name": "redux-companion",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A tool to help reducing redux code boilerplate",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
