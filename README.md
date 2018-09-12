@@ -11,7 +11,7 @@ Zero dependency (Although it only makes sense to use together with `Redux` AND `
 ## Installation
 
 ```sh
-npm i redux-async-helper
+npm i redux-companion
 ```
 
 ## Why?
