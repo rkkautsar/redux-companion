@@ -33,4 +33,4 @@ const createConfig = (path, output) => ({
   ]
 });
 
-export default [createConfig('', 'index')];
+export default [createConfig('', 'index'), createConfig('/thunk', 'thunk')];

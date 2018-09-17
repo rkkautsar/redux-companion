@@ -30,7 +30,10 @@ Basically, we have these utilities:
 3. [createAsyncActions](#createasyncactions)
 4. [asyncInitialState](#asyncinitialstate)
 5. [createAsyncHandlers](#createasynchandlers)
-6. [createAsyncThunk](#createasyncthunk)
+
+We also have middleware specific utilites, for now it's only for `redux-thunk`.
+
+1. [createAsyncThunk](#createasyncthunk)
 
 ### createAction
 

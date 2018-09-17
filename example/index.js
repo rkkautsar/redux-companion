@@ -10,9 +10,10 @@ import {
   createAsyncHandlers,
   createAsyncActions,
   asyncInitialState,
-  createAsyncThunk,
   createAction
-} from '../lib';
+} from '../dist';
+
+import { createAsyncThunk } from '../dist/thunk';
 
 const actions = createAsyncActions('fetch_hello');
 const incrementCounter = createAction('increment');
