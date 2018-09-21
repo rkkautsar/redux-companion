@@ -1,9 +1,8 @@
-/// <reference path="../index.d.ts" />
-
-import { noop } from '../utils';
+import { ReduxCompanion } from './index';
+import { noop } from './utils';
 
 export const createAsyncThunk = (
-  actions: ReduxAsyncHelper.AsyncActions,
+  actions: ReduxCompanion.AsyncActions,
   func: (...args) => Promise<object>,
   { onSuccess = noop, onFail = noop, rethrow = true } = {}
 ) => (...params) => async (dispatch, getState) => {

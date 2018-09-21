@@ -1,7 +1,29 @@
-/// <reference path="index.d.ts" />
-import { identity, noop } from './utils';
+import { identity } from './utils';
 
-export const createAction = (type: string): ReduxAsyncHelper.ActionCreator => {
+export declare namespace ReduxCompanion {
+  interface Action {
+    type: string;
+    payload: any;
+    error: boolean;
+  }
+
+  type ActionCreator = (payload?: any) => Action;
+
+  interface AsyncActions {
+    request: ActionCreator;
+    success: ActionCreator;
+    fail: ActionCreator;
+    reset: ActionCreator;
+  }
+
+  type State = object;
+
+  type Handler = (state: State, payload: any) => State;
+
+  type Handlers = { [type: string]: Handler };
+}
+
+export const createAction = (type: string): ReduxCompanion.ActionCreator => {
   const actionCreator = (payload = null) => ({
     type,
     payload,
@@ -12,7 +34,7 @@ export const createAction = (type: string): ReduxAsyncHelper.ActionCreator => {
   return actionCreator;
 };
 
-export const createAsyncActions = (name: string): ReduxAsyncHelper.AsyncActions => ({
+export const createAsyncActions = (name: string): ReduxCompanion.AsyncActions => ({
   request: createAction(`${name}/request`),
   success: createAction(`${name}/success`),
   fail: createAction(`${name}/fail`),
@@ -27,8 +49,8 @@ export const asyncInitialState = {
 };
 
 export const createReducer = (
-  handlers: ReduxAsyncHelper.Handlers,
-  initialState: ReduxAsyncHelper.State
+  handlers: ReduxCompanion.Handlers,
+  initialState: ReduxCompanion.State
 ) => {
   return (state = initialState, { type, payload }) => {
     if (handlers.hasOwnProperty(type)) {
@@ -39,9 +61,9 @@ export const createReducer = (
 };
 
 export const createAsyncHandlers = (
-  actions: ReduxAsyncHelper.AsyncActions,
-  { onRequest = identity, onSuccess = identity, onFail = identity }: ReduxAsyncHelper.Handlers = {}
-): ReduxAsyncHelper.Handlers => ({
+  actions: ReduxCompanion.AsyncActions,
+  { onRequest = identity, onSuccess = identity, onFail = identity }: ReduxCompanion.Handlers = {}
+): ReduxCompanion.Handlers => ({
   [actions.request.toString()]: (state, payload) =>
     onRequest({ ...state, isLoading: true }, payload),
   [actions.success.toString()]: (state, payload) =>
