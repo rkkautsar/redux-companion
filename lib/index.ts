@@ -20,8 +20,8 @@ export declare namespace ReduxCompanion {
 
   interface AsyncModule {
     id: string;
+    path: string;
     actions: AsyncActions;
-    states: State;
   }
 
   type Handler = (state: State, payload: any) => State;
@@ -54,12 +54,10 @@ export const asyncInitialState = {
   error: null
 };
 
-export const createAsyncModule = (id: string): ReduxCompanion.AsyncModule => ({
+export const createAsyncModule = (id: string, path?: string): ReduxCompanion.AsyncModule => ({
   id,
-  actions: createAsyncActions(id),
-  states: {
-    [id]: asyncInitialState
-  }
+  path: path || id,
+  actions: createAsyncActions(id)
 });
 
 export const createReducer = (
@@ -87,8 +85,8 @@ export const createAsyncHandlers = (
     onSuccess(
       {
         ...state,
-        [asyncModule.id]: {
-          ...state[asyncModule.id],
+        [asyncModule.path]: {
+          ...state[asyncModule.path],
           isLoading: false,
           isLoaded: true,
           error: null,
@@ -101,12 +99,12 @@ export const createAsyncHandlers = (
     onFail(
       {
         ...state,
-        [asyncModule.id]: { ...state[asyncModule.id], isLoading: false, error: payload }
+        [asyncModule.id]: { ...state[asyncModule.path], isLoading: false, error: payload }
       },
       payload
     ),
   [asyncModule.actions.reset.toString()]: state => ({
     ...state,
-    ...asyncModule.states
+    [asyncModule.path]: asyncInitialState
   })
 });
