@@ -37,3 +37,9 @@ export const createAsyncHandlers = (
     onFail(state.set('isLoading', false).set('error', payload), payload),
   [actions.reset.toString()]: state => state.merge(asyncInitialState, { deep: true })
 });
+
+export const createSubstateHandler = (
+  handler: ReduxCompanionImmutable.Handler,
+  path
+): ReduxCompanionImmutable.Handler => (state, payload) =>
+  state.set(path, handler(state[path], payload));
