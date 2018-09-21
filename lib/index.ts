@@ -18,6 +18,12 @@ export declare namespace ReduxCompanion {
 
   type State = object;
 
+  interface AsyncModule {
+    id: string;
+    actions: AsyncActions;
+    states: State;
+  }
+
   type Handler = (state: State, payload: any) => State;
 
   type Handlers = { [type: string]: Handler };
@@ -34,11 +40,11 @@ export const createAction = (type: string): ReduxCompanion.ActionCreator => {
   return actionCreator;
 };
 
-export const createAsyncActions = (name: string): ReduxCompanion.AsyncActions => ({
-  request: createAction(`${name}/request`),
-  success: createAction(`${name}/success`),
-  fail: createAction(`${name}/fail`),
-  reset: createAction(`${name}/reset`)
+export const createAsyncActions = (id: string): ReduxCompanion.AsyncActions => ({
+  request: createAction(`${id}/request`),
+  success: createAction(`${id}/success`),
+  fail: createAction(`${id}/fail`),
+  reset: createAction(`${id}/reset`)
 });
 
 export const asyncInitialState = {
@@ -47,6 +53,14 @@ export const asyncInitialState = {
   data: null,
   error: null
 };
+
+export const createAsyncModule = (id: string): ReduxCompanion.AsyncModule => ({
+  id,
+  actions: createAsyncActions(id),
+  states: {
+    [id]: asyncInitialState
+  }
+});
 
 export const createReducer = (
   handlers: ReduxCompanion.Handlers,
@@ -61,14 +75,32 @@ export const createReducer = (
 };
 
 export const createAsyncHandlers = (
-  actions: ReduxCompanion.AsyncActions,
+  asyncModule: ReduxCompanion.AsyncModule,
   { onRequest = identity, onSuccess = identity, onFail = identity }: ReduxCompanion.Handlers = {}
 ): ReduxCompanion.Handlers => ({
-  [actions.request.toString()]: (state, payload) =>
-    onRequest({ ...state, isLoading: true }, payload),
-  [actions.success.toString()]: (state, payload) =>
-    onSuccess({ ...state, isLoading: false, isLoaded: true, error: null, data: payload }, payload),
-  [actions.fail.toString()]: (state, payload) =>
-    onFail({ ...state, isLoading: false, error: payload }, payload),
-  [actions.reset.toString()]: () => asyncInitialState
+  [asyncModule.actions.request.toString()]: (state, payload) =>
+    onRequest({ ...state, [asyncModule.id]: { ...asyncModule.states, isLoading: true } }, payload),
+  [asyncModule.actions.success.toString()]: (state, payload) =>
+    onSuccess(
+      {
+        ...state,
+        [asyncModule.id]: {
+          ...asyncModule.states,
+          isLoading: false,
+          isLoaded: true,
+          error: null,
+          data: payload
+        }
+      },
+      payload
+    ),
+  [asyncModule.actions.fail.toString()]: (state, payload) =>
+    onFail(
+      { ...state, [asyncModule.id]: { ...asyncModule.states, isLoading: false, error: payload } },
+      payload
+    ),
+  [asyncModule.actions.reset.toString()]: state => ({
+    ...state,
+    [asyncModule.id]: asyncModule.states
+  })
 });
