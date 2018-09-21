@@ -2,7 +2,7 @@ import { ReduxCompanion } from './index';
 import { noop } from './utils';
 
 export const createAsyncThunk = (
-  { actions }: ReduxCompanion.AsyncModule,
+  actions: ReduxCompanion.AsyncActions,
   func: (...args) => Promise<object>,
   { onSuccess = noop, onFail = noop, rethrow = true } = {}
 ) => (...params) => async (dispatch, getState) => {

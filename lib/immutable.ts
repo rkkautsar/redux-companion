@@ -11,40 +11,29 @@ export declare namespace ReduxCompanionImmutable {
 }
 
 export const createAsyncHandlers = (
-  asyncModule: ReduxCompanion.AsyncModule,
+  actions: ReduxCompanion.AsyncActions,
   {
     onRequest = identity,
     onSuccess = identity,
     onFail = identity
   }: ReduxCompanionImmutable.Handlers = {}
 ): ReduxCompanionImmutable.Handlers => ({
-  [asyncModule.actions.request.toString()]: (state, payload) =>
-    onRequest(state.setIn([asyncModule.path, 'isLoading'], true), payload),
-  [asyncModule.actions.success.toString()]: (state, payload) =>
+  [actions.request.toString()]: (state, payload) =>
+    onRequest(state.set('isLoading', true), payload),
+  [actions.success.toString()]: (state, payload) =>
     onSuccess(
       state.merge(
         {
-          [asyncModule.path]: {
-            isLoading: false,
-            isLoaded: true,
-            error: null,
-            data: payload
-          }
+          isLoading: false,
+          isLoaded: true,
+          error: null,
+          data: payload
         },
         { deep: true }
       ),
       payload
     ),
-  [asyncModule.actions.fail.toString()]: (state, payload) =>
-    onFail(
-      state.merge(
-        {
-          [asyncModule.path]: { isLoading: false, error: payload }
-        },
-        { deep: true }
-      ),
-      payload
-    ),
-  [asyncModule.actions.reset.toString()]: state =>
-    state.merge({ [asyncModule.path]: asyncInitialState }, { deep: true })
+  [actions.fail.toString()]: (state, payload) =>
+    onFail(state.set('isLoading', false).set('error', payload), payload),
+  [actions.reset.toString()]: state => state.merge(asyncInitialState, { deep: true })
 });

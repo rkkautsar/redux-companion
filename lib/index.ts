@@ -54,12 +54,6 @@ export const asyncInitialState = {
   error: null
 };
 
-export const createAsyncModule = (id: string, path?: string): ReduxCompanion.AsyncModule => ({
-  id,
-  path: path || id,
-  actions: createAsyncActions(id)
-});
-
 export const createReducer = (
   handlers: ReduxCompanion.Handlers,
   initialState: ReduxCompanion.State
@@ -72,39 +66,39 @@ export const createReducer = (
   };
 };
 
+export const createSubstateHandler = (
+  handler: ReduxCompanion.Handler,
+  path
+): ReduxCompanion.Handler => (state, payload) => ({
+  ...state,
+  [path]: handler(state[path], payload)
+});
+
 export const createAsyncHandlers = (
-  asyncModule: ReduxCompanion.AsyncModule,
+  actions: ReduxCompanion.AsyncActions,
   { onRequest = identity, onSuccess = identity, onFail = identity }: ReduxCompanion.Handlers = {}
 ): ReduxCompanion.Handlers => ({
-  [asyncModule.actions.request.toString()]: (state, payload) =>
-    onRequest(
-      { ...state, [asyncModule.id]: { ...state[asyncModule.id], isLoading: true } },
-      payload
-    ),
-  [asyncModule.actions.success.toString()]: (state, payload) =>
+  [actions.request.toString()]: (state, payload) =>
+    onRequest({ ...state, isLoading: true }, payload),
+  [actions.success.toString()]: (state, payload) =>
     onSuccess(
       {
         ...state,
-        [asyncModule.path]: {
-          ...state[asyncModule.path],
-          isLoading: false,
-          isLoaded: true,
-          error: null,
-          data: payload
-        }
+        isLoading: false,
+        isLoaded: true,
+        error: null,
+        data: payload
       },
       payload
     ),
-  [asyncModule.actions.fail.toString()]: (state, payload) =>
+  [actions.fail.toString()]: (state, payload) =>
     onFail(
       {
         ...state,
-        [asyncModule.id]: { ...state[asyncModule.path], isLoading: false, error: payload }
+        isLoading: false,
+        error: payload
       },
       payload
     ),
-  [asyncModule.actions.reset.toString()]: state => ({
-    ...state,
-    [asyncModule.path]: asyncInitialState
-  })
+  [actions.reset.toString()]: state => ({ ...state, ...asyncInitialState })
 });

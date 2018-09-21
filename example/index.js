@@ -5,20 +5,26 @@ import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import { createReducer, createAsyncHandlers, createAction, createAsyncModule } from '../lib';
+import {
+  createReducer,
+  createAsyncHandlers,
+  createAction,
+  createAsyncActions,
+  asyncInitialState
+} from '../lib';
 
 import { createAsyncThunk } from '../lib/thunk';
 
-const asyncModule = createAsyncModule('fetch_hello');
+const action = createAsyncActions('fetch_hello');
 const incrementCounter = createAction('increment');
 
 const handlers = {
-  ...createAsyncHandlers(asyncModule),
+  ...createAsyncHandlers(action),
   [incrementCounter]: state => ({ ...state, counter: state.counter + 1 })
 };
 
 const initialState = {
-  ...asyncModule.states,
+  ...asyncInitialState,
   counter: 0
 };
 
@@ -36,11 +42,11 @@ const mockFetchFailed = async () => {
   throw new Error('Failed!');
 };
 
-const fetchThunk = createAsyncThunk(asyncModule, mockFetch, {
+const fetchThunk = createAsyncThunk(action, mockFetch, {
   onSuccess: () => console.log('success!')
 });
 
-const fetchFailedThunk = createAsyncThunk(asyncModule, mockFetchFailed, {
+const fetchFailedThunk = createAsyncThunk(action, mockFetchFailed, {
   onFail: () => console.log('failed!')
 });
 
