@@ -40,10 +40,13 @@ export const createAsyncHandlers = (
     ),
   [asyncModule.actions.fail.toString()]: (state, payload) =>
     onFail(
-      state.merge({
-        [asyncModule.id]: { isLoading: false, error: payload }
-      }),
+      state.merge(
+        {
+          [asyncModule.id]: { isLoading: false, error: payload }
+        },
+        { deep: true }
+      ),
       payload
     ),
-  [asyncModule.actions.reset.toString()]: state => state.set(asyncModule.id, asyncModule.states)
+  [asyncModule.actions.reset.toString()]: state => state.merge(asyncModule.states, { deep: true })
 });

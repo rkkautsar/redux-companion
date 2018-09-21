@@ -79,13 +79,16 @@ export const createAsyncHandlers = (
   { onRequest = identity, onSuccess = identity, onFail = identity }: ReduxCompanion.Handlers = {}
 ): ReduxCompanion.Handlers => ({
   [asyncModule.actions.request.toString()]: (state, payload) =>
-    onRequest({ ...state, [asyncModule.id]: { ...asyncModule.states, isLoading: true } }, payload),
+    onRequest(
+      { ...state, [asyncModule.id]: { ...state[asyncModule.id], isLoading: true } },
+      payload
+    ),
   [asyncModule.actions.success.toString()]: (state, payload) =>
     onSuccess(
       {
         ...state,
         [asyncModule.id]: {
-          ...asyncModule.states,
+          ...state[asyncModule.id],
           isLoading: false,
           isLoaded: true,
           error: null,
@@ -96,11 +99,14 @@ export const createAsyncHandlers = (
     ),
   [asyncModule.actions.fail.toString()]: (state, payload) =>
     onFail(
-      { ...state, [asyncModule.id]: { ...asyncModule.states, isLoading: false, error: payload } },
+      {
+        ...state,
+        [asyncModule.id]: { ...state[asyncModule.id], isLoading: false, error: payload }
+      },
       payload
     ),
   [asyncModule.actions.reset.toString()]: state => ({
     ...state,
-    [asyncModule.id]: asyncModule.states
+    ...asyncModule.states
   })
 });
