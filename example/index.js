@@ -11,9 +11,9 @@ import {
   createAction,
   createAsyncActions,
   asyncInitialState
-} from '../lib';
+} from '../dist';
 
-import { createAsyncThunk } from '../lib/thunk';
+import { createAsyncThunk } from '../dist/thunk';
 
 const action = createAsyncActions('fetch_hello');
 const incrementCounter = createAction('increment');
@@ -42,13 +42,9 @@ const mockFetchFailed = async () => {
   throw new Error('Failed!');
 };
 
-const fetchThunk = createAsyncThunk(action, mockFetch, {
-  onSuccess: () => console.log('success!')
-});
+const fetchThunk = createAsyncThunk(action, mockFetch);
 
-const fetchFailedThunk = createAsyncThunk(action, mockFetchFailed, {
-  onFail: () => console.log('failed!')
-});
+const fetchFailedThunk = createAsyncThunk(action, mockFetchFailed);
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
 
