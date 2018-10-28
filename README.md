@@ -116,7 +116,7 @@ const initialState = {
 
 const handlers = {
   // ...
-  ...createAsyncHandlers(saveTodosActions, { path: ['sync'] })
+  ...createAsyncHandlers(saveTodosActions, { path: ['save'] })
 };
 
 const todos = createReducer(handlers, initialState);
@@ -126,3 +126,15 @@ export default todos;
 
 And that's it, when you dispatch the sync() action, the todos are automatically
 saved to the server 🙌
+
+Also, you can select the async state with the selectors:
+
+```js
+import { createAsyncSelectors } from 'redux-companion';
+const savingState = createAsyncSelectors(saveTodosActions);
+
+// ...
+
+const isSaving = savingState.isLoading;
+const savingResponse = savingState.getData;
+```
