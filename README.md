@@ -21,98 +21,108 @@ npm i redux-companion
 I find myself exhausted of writing (or copying) a lot of the same set of redux state, reducer,
 actions, and thunks for interacting with the api, so I thought why not make it easier?
 
-## Usage
+## Quick Start
 
 See [example usage](example).
 
-Basically, we have these utilities:
+Let's recreate [Redux Todo List example](https://redux.js.org/basics/exampletodolist)
+with redux-companion and [Ducks pattern](https://github.com/erikras/ducks-modular-redux).
 
-1. [createAction](#createaction)
-2. [createReducer](#createreducer)
-3. [createAsyncActions](#createasyncactions)
-4. [asyncInitialState](#asyncinitialstate)
-5. [createAsyncHandlers](#createasynchandlers)
+### Reducers
 
-We also have middleware specific utilites, for now it's only for `redux-thunk`.
-
-1. [createAsyncThunk](#createasyncthunk)
-
-### createAction
-
-This is a simplified version of the one used in [redux-act](https://github.com/pauldijou/redux-act).
+#### `reducers/todos.js`
 
 ```js
-const myAction = createAction('my_action');
-myAction.toString(); // my_action
-myAction(); // { type: 'my_action', payload: null, error: false }
-myAction({ my: 'payload' }); // { type: 'my_action', payload: { my: 'payload' }, error: false }
-myAction(new Error('error'))); // { type: 'my_action', payload: Error('error'), error: true }
+import { createAction, createReducer } from 'redux-companion'
+
+export const addTodo = createAction('ADD_TODO')
+export const toggleTodo = createAction('TOGGLE_TODO')
+
+const handlers = {
+  [addTodo]: (state, payload) => [
+    ...state,
+    {
+      id: payload.id,
+      text: payload.text,
+      completed: false,
+    }
+  ],
+  [toggleTodo]: (state, payload) => state.map(
+    todo => todo.id === payload ? { ...todo, completed: !todo.completed } : todo).
+}
+const todo = createReducer(handlers, [])
+export default todo
 ```
 
-### createReducer
-
-This is a helper function to make reducer based on handlers. Basically a handler is a function
-receiving two arguments, `state` and `payload` and returns the modified state.
+#### `reducers/visibilityFilter.js`
 
 ```js
-const myHandlers = {
-  [myAction]: state => ({ ...state, count: state.count + 1 })
+import { createAction, createReducer } from 'redux-companion';
+
+export const setVisibilityFilter = createAction('SET_VISIBILITY_FILTER');
+
+export const VisibilityFilters = {
+  SHOW_ALL: 'SHOW_ALL',
+  SHOW_COMPLETED: 'SHOW_COMPLETED',
+  SHOW_ACTIVE: 'SHOW_ACTIVE'
 };
 
-const myInitialState = {
-  count: 0
+const handlers = {
+  [setVisilibityFilter]: (state, payload) => payload
 };
-
-const myReducer = createReducer(myHandlers, myInitialState);
+const visibilityFilter = createReducer(handlers, []);
+export default visibilityFilter;
 ```
 
-### createAsyncActions
+Not too much different, eh? But for me it's slightly better and less boilerplate.
+How about async actions (with Redux Thunk)?
 
-Used to make a set of actions (request, success, fail, reset) to be used in other async helpers.
+Let's actually save our todo list to the server.
 
-### asyncInitialState
-
-An opinionated state for holding async state and data. Used with other async helpers.
-
-### createAsyncHandlers
-
-Used to make a set of handlers for the async actions generated with
-[createAsyncActions](#createasyncactions). This function also allows you to hook on each
-async state with another handlers (`onRequest`, `onSuccess`, `onFail`). Received to arguments,
-the async actions and hook handlers.
+#### `services/api.js`
 
 ```js
-const myFetchingHandlers = createAsyncHandlers(myAsyncActions, {
-  onSuccess: state => ({ ...state, progress: 100 })
-});
-
-const myHandlers = {
-  ...myFetchingHandlers
-  // ... other handlers
-};
+import axios from 'axios';
+export const putTodos = todos => axios.put(`${BASE_URL}/todos/`, todos);
 ```
 
-### createAsyncThunk
-
-Used to create a thunk (see [redux-thunk](https://github.com/reduxjs/redux-thunk)) for starting
-(request) the async function. Received three arguments: async actions, the async function, and
-options, which includes hooks for success (`onSuccess`) and fail (`onFail`), each receiving
-the `dispatch` and `getState` as any other thunks. The async function is expected to resolve
-the data (which will be placed in `data` key in the state tree produced by
-[asyncInitialState](#asyncinitialstate)),
-any errors caught will be placed in the `error` key.
+#### `reducers/todos.js`
 
 ```js
-const createFetchFunction = async () => {
-  try {
-    const response = await axios.get('/users');
-    return response.data;
-  } catch (err) {
-    throw err;
-  }
+import {
+  createAction,
+  createReducer,
+  createAsyncActions,
+  asyncInitialState,
+  createAsyncHandlers
+} from 'redux-companion';
+import { createAsyncThunk } from 'redux-companion/dist/thunk';
+import { putTodos } from '../services/api';
+
+// ...
+const saveTodosActions = createAsyncActions('SAVE_TODOS');
+const saveTodos = createAsyncThunk(saveTodosActions, putTodos);
+const sync = () => (dispatch, getState) => {
+  const {
+    todos: { list }
+  } = getState();
+  dispatch(saveTodos(list));
 };
 
-const fetchThunk = createAsyncThunk(actions, apiFetch, {
-  onSuccess: () => console.log('success!')
-});
+const initialState = {
+  list: [],
+  save: asyncInitialState
+};
+
+const handlers = {
+  // ...
+  ...createAsyncHandlers(saveTodosActions, { path: ['sync'] })
+};
+
+const todos = createReducer(handlers, initialState);
+
+export default todos;
 ```
+
+And that's it, when you dispatch the sync() action, the todos are automatically
+saved to the server 🙌
