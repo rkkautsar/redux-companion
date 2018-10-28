@@ -6,7 +6,7 @@
   "module": "dist/index.m.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prebuild": "rimraf dist/",
     "build": "rollup -c",
     "example": "parcel example/index.html",
@@ -36,6 +36,9 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/runtime": "^7.1.2",
     "@types/seamless-immutable": "^7.1.2",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0",
     "parcel-bundler": "^1.10.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -51,5 +54,12 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-terser": "^2.0.2"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "lib/*.js",
+      "!**/node_modules/**"
+    ]
+  }
 }
