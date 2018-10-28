@@ -10,9 +10,7 @@ const baseConfig = {
         moduleDirectory: 'node_modules'
       }
     }),
-    babel({
-      plugins: ['@babel/plugin-proposal-object-rest-spread', 'ramda']
-    }),
+    babel(),
     commonjs(),
     terser()
   ]
