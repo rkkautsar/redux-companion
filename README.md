@@ -33,10 +33,10 @@ with redux-companion and [Ducks pattern](https://github.com/erikras/ducks-modula
 #### `reducers/todos.js`
 
 ```js
-import { createAction, createReducer } from 'redux-companion'
+import { createAction, createReducer } from 'redux-companion';
 
-export const addTodo = createAction('ADD_TODO')
-export const toggleTodo = createAction('TOGGLE_TODO')
+export const addTodo = createAction('ADD_TODO');
+export const toggleTodo = createAction('TOGGLE_TODO');
 
 const handlers = {
   [addTodo]: (state, payload) => [
@@ -44,14 +44,14 @@ const handlers = {
     {
       id: payload.id,
       text: payload.text,
-      completed: false,
+      completed: false
     }
   ],
-  [toggleTodo]: (state, payload) => state.map(
-    todo => todo.id === payload ? { ...todo, completed: !todo.completed } : todo).
-}
-const todo = createReducer(handlers, [])
-export default todo
+  [toggleTodo]: (state, payload) =>
+    state.map(todo => (todo.id === payload ? { ...todo, completed: !todo.completed } : todo))
+};
+const todo = createReducer(handlers, []);
+export default todo;
 ```
 
 #### `reducers/visibilityFilter.js`
