@@ -83,7 +83,7 @@ Let's actually save our todo list to the server.
 
 ```js
 import axios from 'axios';
-export const putTodos = todos => axios.put(`${BASE_URL}/todos/`, todos);
+export const putTodos = todos => axios.put(`${BASE_URL}/todos/`, todos).then(res => res.data);
 ```
 
 #### `reducers/todos.js`
