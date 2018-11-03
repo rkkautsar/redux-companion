@@ -6,6 +6,7 @@
 [![npm](https://img.shields.io/npm/dt/redux-companion.svg?style=flat-square)](https://www.npmjs.com/package/redux-companion)
 [![Travis](https://img.shields.io/travis/com/rkkautsar/redux-companion.svg?style=flat-square)](https://travis-ci.com/rkkautsar/redux-companion)
 [![Codecov](https://img.shields.io/codecov/c/github/rkkautsar/redux-companion.svg?style=flat-square)](https://codecov.io/gh/rkkautsar/redux-companion)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frkkautsar%2Fredux-companion.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frkkautsar%2Fredux-companion?ref=badge_shield)
 
 Opinionated way to reduce boilerplate on async (or sync) logic, like fetching data etc.
 Zero dependency (Although it only makes sense to use together with `Redux` AND `Redux Thunk`).
@@ -138,3 +139,7 @@ const savingState = createAsyncSelectors(saveTodosActions);
 const isSaving = savingState.isLoading;
 const savingResponse = savingState.getData;
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frkkautsar%2Fredux-companion.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frkkautsar%2Fredux-companion?ref=badge_large)
