@@ -37,8 +37,8 @@
     "@babel/runtime": "^7.1.2",
     "@types/seamless-immutable": "^7.1.2",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
-    "jest": "^23.6.0",
+    "babel-jest": "^24.1.0",
+    "jest": "^24.1.0",
     "parcel-bundler": "^1.10.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -60,6 +60,9 @@
     "collectCoverageFrom": [
       "lib/*.js",
       "!**/node_modules/**"
+    ],
+    "setupFiles": [
+      "<rootDir>/node_modules/regenerator-runtime/runtime"
     ]
   }
 }
