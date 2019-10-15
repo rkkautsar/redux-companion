@@ -46,7 +46,7 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "release-it": "^10.1.0",
+    "release-it": "^12.4.3",
     "rimraf": "^2.6.2",
     "rollup": "^1.2.2",
     "rollup-plugin-babel": "^4.0.3",
