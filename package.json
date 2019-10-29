@@ -4,6 +4,7 @@
   "description": "A tool to help reducing redux code boilerplate",
   "main": "dist/index.js",
   "module": "dist/index.m.js",
+  "sideEffects": false,
   "scripts": {
     "test": "jest",
     "prebuild": "rimraf dist/",
