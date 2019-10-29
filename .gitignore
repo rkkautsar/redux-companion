@@ -4,3 +4,4 @@ coverage/
 .cache
 .DS_Store
 .rpt2_cache
+.idea/
