@@ -4,11 +4,10 @@
   "description": "A tool to help reducing redux code boilerplate",
   "main": "dist/index.js",
   "module": "dist/index.m.js",
-  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "prebuild": "rimraf dist/",
-    "build": "rollup -c",
+    "build": "microbundle lib/{index,thunk}.js",
     "example": "parcel example/index.html",
     "prerelease": "npm run build",
     "release": "release-it"
@@ -24,7 +23,7 @@
     "utils",
     "es6"
   ],
-  "author": "Rakha Kanz Kautsar",
+  "author": "Rakha Kanz nKautsar",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rkkautsar/redux-companion/issues"
@@ -39,6 +38,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0",
+    "microbundle": "^0.11.0",
     "parcel-bundler": "^1.10.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -47,12 +47,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "release-it": "^12.4.3",
-    "rimraf": "^3.0.0",
-    "rollup": "^1.2.2",
-    "rollup-plugin-babel": "^4.0.3",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^5.1.2"
+    "rimraf": "^3.0.0"
   },
   "dependencies": {},
   "jest": {
