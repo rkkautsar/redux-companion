@@ -5,8 +5,8 @@ import {
   createAsyncHandlers,
   asyncInitialState,
   createAsyncSelectors
-} from '../lib';
-import { identity } from '../lib/utils';
+} from '@redux-companion/core';
+import { identity } from '@redux-companion/utils';
 
 describe('createAction', () => {
   const id = 'MY_ACTION';

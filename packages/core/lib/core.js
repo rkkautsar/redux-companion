@@ -1,4 +1,4 @@
-import { createStateUpdate, identity, get, compose } from './utils';
+import { createStateUpdate, identity, get, compose } from '@redux-companion/utils';
 
 export const asyncInitialState = {
   isLoading: false,
