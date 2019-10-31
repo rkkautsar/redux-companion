@@ -5,6 +5,7 @@ node_js:
 install:
   - npm ci
   - npm install -g codecov
+  - npx lerna bootstrap
 script:
   - npm test
   - codecov
