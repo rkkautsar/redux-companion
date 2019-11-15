@@ -4,6 +4,7 @@ node_js:
   - '10'
 install:
   - npm install -g codecov lerna
+  - npm ci
   - lerna bootstrap
 script:
   - npm test
