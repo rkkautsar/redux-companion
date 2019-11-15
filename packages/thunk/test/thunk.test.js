@@ -1,5 +1,5 @@
 import { createAsyncThunk, createFetchThunk } from '../lib/thunk';
-import { createAsyncActions } from '../lib';
+import { createAsyncActions } from '@redux-companion/core';
 
 describe('createAsyncThunk', () => {
   const actions = createAsyncActions('MY_ASYNC_ACTIONS');

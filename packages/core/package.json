@@ -1,0 +1,19 @@
+{
+  "name": "@redux-companion/core",
+  "source": "lib/core.js",
+  "main": "dist/core.js",
+  "module": "dist/core.m.js",
+  "unpkg": "dist/core.umd.js",
+  "sideEffects": false,
+  "dependencies": {
+    "@redux-companion/utils": "0.8.0"
+  },
+  "version": "0.8.0",
+  "devDependencies": {
+    "microbundle": "^0.11.0"
+  },
+  "scripts": {
+    "build": "microbundle",
+    "prepublish": "npm run build"
+  }
+}
