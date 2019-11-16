@@ -6,9 +6,9 @@
   "unpkg": "dist/core.umd.js",
   "sideEffects": false,
   "dependencies": {
-    "@redux-companion/utils": "^0.8.1-alpha.1"
+    "@redux-companion/utils": "^0.8.1-alpha.2"
   },
-  "version": "0.8.1-alpha.1",
+  "version": "0.8.1-alpha.2",
   "devDependencies": {
     "microbundle": "^0.11.0"
   },
@@ -19,5 +19,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "79c0a93ac05af55151353ee19a2fa3f7ede82846"
+  "gitHead": "6cb30b35cc23a52d68461176c6edd9825a7c154e"
 }
