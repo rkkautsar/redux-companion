@@ -5,9 +5,9 @@
   "module": "dist/thunk.m.js",
   "unpkg": "dist/thunk.umd.js",
   "sideEffects": false,
-  "version": "0.8.0",
+  "version": "0.8.1-alpha.0",
   "devDependencies": {
-    "@redux-companion/core": "^0.8.0",
+    "@redux-companion/core": "^0.8.1-alpha.0",
     "microbundle": "^0.11.0"
   },
   "scripts": {
