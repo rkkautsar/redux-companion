@@ -6,7 +6,6 @@
   "unpkg": "dist/utils.umd.js",
   "sideEffects": false,
   "version": "0.8.0",
-  "dependencies": {},
   "devDependencies": {
     "microbundle": "^0.11.0"
   },

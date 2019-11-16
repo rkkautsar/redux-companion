@@ -6,7 +6,7 @@
   "unpkg": "dist/core.umd.js",
   "sideEffects": false,
   "dependencies": {
-    "@redux-companion/utils": "0.8.0"
+    "@redux-companion/utils": "^0.8.0"
   },
   "version": "0.8.0",
   "devDependencies": {
