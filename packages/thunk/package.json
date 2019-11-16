@@ -5,13 +5,17 @@
   "module": "dist/thunk.m.js",
   "unpkg": "dist/thunk.umd.js",
   "sideEffects": false,
-  "version": "0.8.1-alpha.0",
+  "version": "0.8.1-alpha.1",
   "devDependencies": {
-    "@redux-companion/core": "^0.8.1-alpha.0",
+    "@redux-companion/core": "^0.8.1-alpha.1",
     "microbundle": "^0.11.0"
   },
   "scripts": {
     "build": "microbundle",
     "prepublish": "npm run build"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "79c0a93ac05af55151353ee19a2fa3f7ede82846"
 }
