@@ -2,8 +2,8 @@
 
 ![GitHub](https://img.shields.io/github/license/rkkautsar/redux-companion.svg?style=flat-square)
 ![GitHub package version](https://img.shields.io/github/package-json/v/rkkautsar/redux-companion.svg?style=flat-square)
-![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/redux-companion.svg?style=flat-square)
-[![npm](https://img.shields.io/npm/dt/redux-companion.svg?style=flat-square)](https://www.npmjs.com/package/redux-companion)
+![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@redux-companion/core.svg?style=flat-square)
+[![npm](https://img.shields.io/npm/dt/@redux-companion/core.svg?style=flat-square)](https://www.npmjs.com/package/redux-companion)
 [![Travis](https://img.shields.io/travis/com/rkkautsar/redux-companion.svg?style=flat-square)](https://travis-ci.com/rkkautsar/redux-companion)
 [![Codecov](https://img.shields.io/codecov/c/github/rkkautsar/redux-companion.svg?style=flat-square)](https://codecov.io/gh/rkkautsar/redux-companion)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frkkautsar%2Fredux-companion.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frkkautsar%2Fredux-companion?ref=badge_shield)
@@ -14,7 +14,7 @@ Zero dependency (Although it only makes sense to use together with `Redux` AND `
 ## Installation
 
 ```sh
-npm i redux-companion
+npm i @redux-companion/core @redux-companion/thunk
 ```
 
 ## Why?

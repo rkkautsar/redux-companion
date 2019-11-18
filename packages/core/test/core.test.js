@@ -4,7 +4,7 @@ import {
   createReducer,
   createAsyncHandlers,
   asyncInitialState,
-  createAsyncSelectors
+  createAsyncSelectors, asyncStatus
 } from '../lib/core';
 import { identity } from '@redux-companion/utils';
 
@@ -79,7 +79,7 @@ describe('createAsyncHandlers', () => {
   it('creates a request handler', () => {
     expect(asyncHandlers).toHaveProperty(`${asyncActions.request}`);
     const newState = asyncHandlers[asyncActions.request](initialState);
-    expect(newState).toHaveProperty('a.isLoading', true);
+    expect(newState).toHaveProperty('a.status', asyncStatus.PENDING);
     expect(onRequest).toHaveBeenCalledTimes(1);
     expect(onRequest).toHaveBeenCalledWith(newState);
   });
@@ -88,8 +88,7 @@ describe('createAsyncHandlers', () => {
     expect(asyncHandlers).toHaveProperty(`${asyncActions.success}`);
     const data = Symbol();
     const newState = asyncHandlers[asyncActions.success](initialState, data);
-    expect(newState).toHaveProperty('a.isLoading', false);
-    expect(newState).toHaveProperty('a.isLoaded', true);
+    expect(newState).toHaveProperty('a.status', asyncStatus.SUCCESS);
     expect(newState).toHaveProperty('a.data', data);
     expect(onSuccess).toHaveBeenCalledTimes(1);
     expect(onSuccess).toHaveBeenCalledWith(newState);
@@ -99,7 +98,7 @@ describe('createAsyncHandlers', () => {
     expect(asyncHandlers).toHaveProperty(`${asyncActions.fail}`);
     const error = new Error();
     const newState = asyncHandlers[asyncActions.fail](initialState, error);
-    expect(newState).toHaveProperty('a.isLoading', false);
+    expect(newState).toHaveProperty('a.status', asyncStatus.FAILED);
     expect(newState).toHaveProperty('a.error', error);
     expect(onFail).toHaveBeenCalledTimes(1);
     expect(onFail).toHaveBeenCalledWith(newState);

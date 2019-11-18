@@ -1,8 +1,13 @@
 import { createStateUpdate, identity, get, compose } from '@redux-companion/utils';
 
+export const asyncStatus = {
+  FAILED: -1,
+  PENDING: 0,
+  SUCCESS: 1,
+};
+
 export const asyncInitialState = {
-  isLoading: false,
-  isLoaded: false,
+  status: asyncStatus.PENDING,
   data: null,
   error: null
 };
@@ -11,7 +16,7 @@ export const createAction = type => {
   const actionCreator = (payload = null) => ({
     type,
     payload,
-    error: payload instanceof Error
+    isError: payload instanceof Error
   });
   actionCreator.toString = () => type;
 
@@ -44,21 +49,20 @@ export const createAsyncHandlers = (
     [actions.request]: compose(
       onRequest,
       updateState(() => ({
-        isLoading: true
+        status: asyncStatus.PENDING,
       }))
     ),
     [actions.success]: compose(
       onSuccess,
       updateState(payload => ({
-        isLoading: false,
-        isLoaded: true,
+        status: asyncStatus.SUCCESS,
         data: payload
       }))
     ),
     [actions.fail]: compose(
       onFail,
       updateState(payload => ({
-        isLoading: false,
+        status: asyncStatus.FAILED,
         error: payload
       }))
     )
