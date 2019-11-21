@@ -6,3 +6,4 @@ coverage/
 .rpt2_cache
 .idea/
 lerna-debug.log
+.rts2_cache*

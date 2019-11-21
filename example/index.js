@@ -1,34 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider, connect } from 'react-redux';
-import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import {
-  createReducer,
-  createAsyncHandlers,
-  createAction,
-  createAsyncActions,
-  asyncInitialState
-} from '../dist';
+import { createReducer, createAction } from '@redux-companion/core';
+import { createAsyncMiddleware, createAsyncStatusReducer } from '@redux-companion/async';
 
-import { createAsyncThunk } from '../dist/thunk';
-
-const action = createAsyncActions('fetch_hello');
-const incrementCounter = createAction('increment');
-
-const handlers = {
-  ...createAsyncHandlers(action),
-  [incrementCounter]: state => ({ ...state, counter: state.counter + 1 })
-};
-
-const initialState = {
-  ...asyncInitialState,
-  counter: 0
-};
-
-const reducer = createReducer(handlers, initialState);
+const { actions: fetchHello, reducer: fetchHelloStatusReducer } = createAsyncStatusReducer(
+  'fetch_hello'
+);
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
@@ -42,11 +23,41 @@ const mockFetchFailed = async () => {
   throw new Error('Failed!');
 };
 
-const fetchThunk = createAsyncThunk(action, mockFetch);
+const helloMiddleware = createAsyncMiddleware({
+  [fetchHello.request]: async ({ dispatch }, action) => {
+    const promise = action.payload === 'success' ? mockFetch() : mockFetchFailed();
+    try {
+      const result = await promise;
+      dispatch(fetchHello.success(result));
+    } catch (e) {
+      dispatch(fetchHello.fail(e));
+    }
+  }
+});
 
-const fetchFailedThunk = createAsyncThunk(action, mockFetchFailed);
+const incrementCounter = createAction('increment');
 
-const store = createStore(reducer, applyMiddleware(thunk, logger));
+const handlers = {
+  [incrementCounter]: state => ({ ...state, counter: state.counter + 1 }),
+  [fetchHello.success]: (state, payload) => ({ ...state, data: payload }),
+  [fetchHello.fail]: (state, payload) => ({ ...state, error: payload.message })
+};
+
+const initialState = {
+  counter: 0,
+  data: null,
+  error: null
+};
+
+const myReducer = createReducer(handlers, initialState);
+
+const reducer = combineReducers({
+  myReducer,
+  fetchHelloStatusReducer
+});
+
+const middlewares = [helloMiddleware, logger];
+const store = createStore(reducer, applyMiddleware(...middlewares));
 
 const App = connect(
   state => ({ state }),
@@ -56,8 +67,8 @@ const App = connect(
     <pre>
       <code>{JSON.stringify(state, null, 2)}</code>
     </pre>
-    <button onClick={() => dispatch(fetchThunk())}>Fetch</button>
-    <button onClick={() => dispatch(fetchFailedThunk())}>Fetch Failed</button>
+    <button onClick={() => dispatch(fetchHello.request('success'))}>Fetch</button>
+    <button onClick={() => dispatch(fetchHello.request())}>Fetch Failed</button>
     <button onClick={() => dispatch(incrementCounter())}>Increment +</button>
   </div>
 ));
