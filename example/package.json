@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.2.0",
   "dependencies": {
-    "@redux-companion/async": "^0.8.1",
-    "@redux-companion/core": "^0.8.1",
+    "@redux-companion/async": "^0.9.0",
+    "@redux-companion/core": "^0.9.0",
     "react": "^16.0.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.3",
