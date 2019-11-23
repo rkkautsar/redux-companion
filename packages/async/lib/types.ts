@@ -1,6 +1,6 @@
 import { ActionType } from '@redux-companion/core';
 
-interface Store {
+export interface Store {
   getState: Function;
   dispatch: Function;
 }

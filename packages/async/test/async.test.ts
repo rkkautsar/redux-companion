@@ -75,7 +75,10 @@ describe('createAsyncMiddleware', () => {
   const middleware = createAsyncMiddleware(handlers);
   const nextMiddlewareResult = Symbol.for('nextMiddleware');
   const nextMiddleware = jest.fn(() => Promise.resolve(nextMiddlewareResult));
-  const store = Symbol.for('result');
+  const store = {
+    dispatch: null,
+    getState: null
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();

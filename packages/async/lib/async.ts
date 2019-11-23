@@ -1,5 +1,7 @@
 import { ActionType, createAction, createReducer } from '@redux-companion/core';
-import { MiddlewareHandler } from './types';
+import { MiddlewareHandler, Store } from './types';
+
+export * from './types';
 
 export const enum AsyncStatus {
   Initial = 'initial',
@@ -33,9 +35,9 @@ export const createAsyncStatusReducer = (id: string) => {
   };
 };
 
-export const createAsyncMiddleware = (handlers: { [key: string]: MiddlewareHandler }) => store => (
-  next: Function
-) => (action: ActionType) => {
+export const createAsyncMiddleware = (handlers: { [key: string]: MiddlewareHandler }) => (
+  store: Store
+) => (next: Function) => (action: ActionType) => {
   const result = next(action);
 
   const { type } = action;
