@@ -1,4 +1,4 @@
-import { createAction, createReducer } from '@redux-companion/core';
+import { createAction, createReducer } from '../lib/core';
 
 describe('createAction', () => {
   const id = 'MY_ACTION';

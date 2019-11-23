@@ -22,6 +22,17 @@ export const createAsyncHandlers = (actions: ReturnType<typeof createAsyncAction
   };
 };
 
+export const createAsyncStatusReducer = (id: string) => {
+  const actions = createAsyncActions(id);
+  const handlers = createAsyncHandlers(actions);
+  const reducer = createReducer<AsyncStatus>(handlers, AsyncStatus.Initial);
+
+  return {
+    actions,
+    reducer
+  };
+};
+
 export const createAsyncMiddleware = (handlers: { [key: string]: MiddlewareHandler }) => store => (
   next: Function
 ) => (action: ActionType) => {
@@ -33,16 +44,4 @@ export const createAsyncMiddleware = (handlers: { [key: string]: MiddlewareHandl
   }
 
   return Promise.resolve(result);
-};
-
-export const createAsyncStatusReducer = (id: string) => {
-  const actions = createAsyncActions(id);
-  const handlers = createAsyncHandlers(actions);
-  const reducer = createReducer<AsyncStatus>(handlers, AsyncStatus.Initial);
-
-  return {
-    actions,
-    handlers,
-    reducer
-  };
 };

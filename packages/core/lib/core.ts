@@ -1,6 +1,3 @@
-/**
- *
- */
 import { ActionType, HandlerType } from './types';
 
 export * from './types';
