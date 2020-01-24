@@ -1,5 +1,6 @@
 {
   "name": "redux-companion",
+  "description": "A tool to help reducing redux code boilerplate",
   "source": "index.ts",
   "main": "dist/index.js",
   "module": "dist/index.m.js",
