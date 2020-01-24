@@ -2,8 +2,8 @@
 
 ![GitHub](https://img.shields.io/github/license/rkkautsar/redux-companion.svg?style=flat-square)
 ![GitHub package version](https://img.shields.io/github/package-json/v/rkkautsar/redux-companion.svg?style=flat-square)
-![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@redux-companion/core.svg?style=flat-square)
-[![npm](https://img.shields.io/npm/dt/@redux-companion/core.svg?style=flat-square)](https://www.npmjs.com/package/redux-companion)
+![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/redux-companion.svg?style=flat-square)
+[![npm](https://img.shields.io/npm/dt/redux-companion.svg?style=flat-square)](https://www.npmjs.com/package/redux-companion)
 [![Travis](https://img.shields.io/travis/com/rkkautsar/redux-companion.svg?style=flat-square)](https://travis-ci.com/rkkautsar/redux-companion)
 [![Codecov](https://img.shields.io/codecov/c/github/rkkautsar/redux-companion.svg?style=flat-square)](https://codecov.io/gh/rkkautsar/redux-companion)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frkkautsar%2Fredux-companion.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frkkautsar%2Fredux-companion?ref=badge_shield)
@@ -11,10 +11,16 @@
 Opinionated way to reduce boilerplate on async (or sync) logic, like fetching data etc.
 Zero dependency (Although it only makes sense to use together with `Redux` AND `Redux Thunk`).
 
+## Packages
+
+- [redux-companion](#installation)
+- [@redux-companion/core](./packages/core)
+- [@redux-companion/async](./packages/async)
+
 ## Installation
 
 ```sh
-npm i @redux-companion/core @redux-companion/thunk
+npm i redux-companion
 ```
 
 ## Why?
@@ -26,12 +32,13 @@ actions, and thunks for interacting with the api, so I thought why not make it e
 
 See [example usage](example).
 
-Let's recreate [Redux Todo List example](https://redux.js.org/basics/exampletodolist)
+Let's recreate [Redux Todo List example](https://redux.js.org/basics/example/)
 with redux-companion and [Ducks pattern](https://github.com/erikras/ducks-modular-redux).
 
 ### Reducers
 
-#### `reducers/todos.js`
+<details>
+<summary>reducers/todos.js</summary>
 
 ```js
 import { createAction, createReducer } from 'redux-companion';
@@ -55,7 +62,10 @@ const todo = createReducer(handlers, []);
 export default todo;
 ```
 
-#### `reducers/visibilityFilter.js`
+</details>
+
+<details>
+<summary>reducers/visibilityFilter.js</summary>
 
 ```js
 import { createAction, createReducer } from 'redux-companion';
@@ -75,71 +85,76 @@ const visibilityFilter = createReducer(handlers, []);
 export default visibilityFilter;
 ```
 
+</details>
+
 Not too much different, eh? But for me it's slightly better and less boilerplate.
-How about async actions (with Redux Thunk)?
+How about async actions?
 
 Let's actually save our todo list to the server.
 
-#### `services/api.js`
+<details>
+<summary>services/api.js</summary>
 
 ```js
 import axios from 'axios';
 export const putTodos = todos => axios.put(`${BASE_URL}/todos/`, todos).then(res => res.data);
 ```
 
-#### `reducers/todos.js`
+</details>
 
-```js
+<details>
+<summary>reducers/todos.js</summary>
+
+```diff
 import {
   createAction,
   createReducer,
-  createAsyncActions,
-  asyncInitialState,
-  createAsyncHandlers
++  createAsyncMiddleware,
++  createAsyncStatusReducer
 } from 'redux-companion';
-import { createAsyncThunk } from 'redux-companion/dist/thunk';
 import { putTodos } from '../services/api';
 
-// ...
-const saveTodosActions = createAsyncActions('SAVE_TODOS');
-const saveTodos = createAsyncThunk(saveTodosActions, putTodos);
-const sync = () => (dispatch, getState) => {
-  const {
-    todos: { list }
-  } = getState();
-  dispatch(saveTodos(list));
-};
-
-const initialState = {
-  list: [],
-  save: asyncInitialState
-};
+export const addTodo = createAction('ADD_TODO');
+export const toggleTodo = createAction('TOGGLE_TODO');
 
 const handlers = {
-  // ...
-  ...createAsyncHandlers(saveTodosActions, { path: ['save'] })
+  [addTodo]: (state, payload) => [
+    ...state,
+    {
+      id: payload.id,
+      text: payload.text,
+      completed: false
+    }
+  ],
+  [toggleTodo]: (state, payload) =>
+    state.map(todo => (todo.id === payload ? { ...todo, completed: !todo.completed } : todo))
 };
 
-const todos = createReducer(handlers, initialState);
++ export const todosMiddleware = createAsyncMiddleware({
++   [saveTodos]: async ({ dispatch, getState }) => {
++     const todos = getState().todos;
++     try {
++       await putTodos(todos);
++       // do something after save action complete
++     } catch (e) {
++       // handle error here
++     }
++   }
++ });
 
-export default todos;
++ export const { actions: saveTodos, reducer: saveTodosStatusReducer } = createAsyncStatusReducer(
++   'SAVE_TODOS'
++ );
+
+const todo = createReducer(handlers, []);
+export default todo;
 ```
 
-And that's it, when you dispatch the sync() action, the todos are automatically
-saved to the server 🙌
+</details>
 
-Also, you can select the async state with the selectors:
-
-```js
-import { createAsyncSelectors } from 'redux-companion';
-const savingState = createAsyncSelectors(saveTodosActions);
-
-// ...
-
-const isSaving = savingState.isLoading;
-const savingResponse = savingState.getData;
-```
-
+And that's it, when you dispatch the saveTodos() action, the middleware (that you have to register, see [example](example))
+will catch the action and run the associated api call with the todos.
 
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frkkautsar%2Fredux-companion.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frkkautsar%2Fredux-companion?ref=badge_large)
