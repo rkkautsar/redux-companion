@@ -8,8 +8,8 @@
   "sideEffects": false,
   "version": "0.9.0",
   "dependencies": {
-    "@redux-companion/core": "^0.9.0",
-    "@redux-companion/async": "^0.9.0"
+    "@redux-companion/async": "^0.9.0",
+    "@redux-companion/core": "^0.9.0"
   },
   "devDependencies": {
     "microbundle": "^0.11.0"
