@@ -6,10 +6,10 @@
   "unpkg": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
-  "version": "0.9.0",
+  "version": "0.9.1",
   "dependencies": {
-    "@redux-companion/async": "^0.9.0",
-    "@redux-companion/core": "^0.9.0"
+    "@redux-companion/async": "^0.9.1",
+    "@redux-companion/core": "^0.9.1"
   },
   "devDependencies": {
     "microbundle": "^0.11.0"
