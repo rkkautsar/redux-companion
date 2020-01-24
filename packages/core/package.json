@@ -6,7 +6,7 @@
   "unpkg": "dist/core.umd.js",
   "types": "dist/core.d.ts",
   "sideEffects": false,
-  "version": "0.9.1",
+  "version": "0.9.2",
   "devDependencies": {
     "microbundle": "^0.11.0"
   },
