@@ -16,7 +16,7 @@
   "scripts": {
     "prebuild": "rimraf dist/",
     "build": "microbundle",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build && rimraf .rts2_cache*"
   },
   "publishConfig": {
     "access": "public"
