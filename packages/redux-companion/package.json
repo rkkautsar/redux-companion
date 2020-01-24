@@ -1,0 +1,26 @@
+{
+  "name": "redux-companion",
+  "source": "index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.m.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "version": "0.9.0",
+  "dependencies": {
+    "@redux-companion/core": "^0.9.0",
+    "@redux-companion/async": "^0.9.0"
+  },
+  "devDependencies": {
+    "microbundle": "^0.11.0"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "node_modules/.bin/microbundle",
+    "prepublish": "yarn build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "6cb30b35cc23a52d68461176c6edd9825a7c154e"
+}
