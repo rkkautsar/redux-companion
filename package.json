@@ -29,12 +29,12 @@
     "@types/jest": "^24.0.23",
     "babel-jest": "^24.1.0",
     "husky": "^3.1.0",
-    "jest": "^24.1.0",
+    "jest": "^25.1.0",
     "lerna": "^3.18.4",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
     "rimraf": "^3.0.0",
-    "ts-jest": "^24.1.0"
+    "ts-jest": "^25.0.0"
   },
   "workspaces": [
     "packages/*",
